@@ -6,31 +6,31 @@
 
 | 排名 | 项目 | 语言 | ⭐ Star | 📈 今日 |
 |:---:|------|:----:|-------:|-------:|
-| 1 | [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) | TypeScript | 14.2k | +3.0k |
-| | ↳ OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more. | | | |
-| 2 | [onyx-dot-app/onyx](https://github.com/onyx-dot-app/onyx) | Python | 23.3k | +1.9k |
+| 1 | [Blaizzy/mlx-vlm](https://github.com/Blaizzy/mlx-vlm) | Python | 3.6k | +316 |
+| | ↳ MLX-VLM is a package for inference and fine-tuning of Vision Language Models (VLMs) on your Mac using MLX. | | | |
+| 2 | [onyx-dot-app/onyx](https://github.com/onyx-dot-app/onyx) | Python | 24.2k | +1.2k |
 | | ↳ Open Source AI Platform - AI Chat with advanced features that works with every LLM | | | |
-| 3 | [google-research/timesfm](https://github.com/google-research/timesfm) | Python | 14.1k | +916 |
-| | ↳ TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting. | | | |
-| 4 | [siddharthvaddem/openscreen](https://github.com/siddharthvaddem/openscreen) | TypeScript | 18.2k | +2.8k |
+| 3 | [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) | TypeScript | 15.6k | +1.8k |
+| | ↳ OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more. | | | |
+| 4 | [siddharthvaddem/openscreen](https://github.com/siddharthvaddem/openscreen) | TypeScript | 19.6k | +1.6k |
 | | ↳ Create stunning demos for free. Open-source, no subscriptions, no watermarks, and free for commercial use. An alternative to Screen Studio. | | | |
-| 5 | [dmtrKovalenko/fff.nvim](https://github.com/dmtrKovalenko/fff.nvim) | Rust | 3.3k | +750 |
-| | ↳ The fastest and the most accurate file search toolkit for AI agents, Neovim, Rust, C, and NodeJS | | | |
+| 5 | [telegramdesktop/tdesktop](https://github.com/telegramdesktop/tdesktop) | C++ | 30.8k | +282 |
+| | ↳ Telegram Desktop messaging app | | | |
 
 ## 📊 本周热门 (Weekly Top 5)
 
 | 排名 | 项目 | 语言 | ⭐ Star | 📈 本周 |
 |:---:|------|:----:|-------:|-------:|
-| 1 | [luongnv89/claude-howto](https://github.com/luongnv89/claude-howto) | Python | 17.8k | +15.0k |
+| 1 | [luongnv89/claude-howto](https://github.com/luongnv89/claude-howto) | Python | 18.9k | +15.0k |
 | | ↳ A visual, example-driven guide to Claude Code — from basic concepts to advanced agents, with copy-paste templates that bring immediate value. | | | |
-| 2 | [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice) | Python | 35.7k | +11.3k |
-| | ↳ Open-Source Frontier Voice AI | | | |
-| 3 | [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) | TypeScript | 14.2k | +10.6k |
+| 2 | [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) | TypeScript | 15.6k | +10.6k |
 | | ↳ OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more. | | | |
-| 4 | [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | TypeScript | 23.2k | +9.5k |
+| 3 | [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice) | Python | 36.1k | +11.3k |
+| | ↳ Open-Source Frontier Voice AI | | | |
+| 4 | [siddharthvaddem/openscreen](https://github.com/siddharthvaddem/openscreen) | TypeScript | 19.6k | +8.5k |
+| | ↳ Create stunning demos for free. Open-source, no subscriptions, no watermarks, and free for commercial use. An alternative to Screen Studio. | | | |
+| 5 | [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) | TypeScript | 23.8k | +9.5k |
 | | ↳ Teams-first Multi-agent orchestration for Claude Code | | | |
-| 5 | [hacksider/Deep-Live-Cam](https://github.com/hacksider/Deep-Live-Cam) | Python | 87.9k | +5.8k |
-| | ↳ real time face swap and one-click video deepfake with only a single image | | | |
 
 ---
 *由 GitHub Actions 自动生成*
