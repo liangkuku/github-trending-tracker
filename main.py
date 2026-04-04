@@ -42,10 +42,10 @@ def main() -> int:
     # 保存输出文件
     print("\n💾 正在保存文件...")
     try:
-        md_file, json_file, latest_file = save_outputs(daily, weekly, today)
+        md_file, latest_file = save_outputs(daily, weekly, today)
         print(f"   ✓ Markdown: {md_file}")
-        print(f"   ✓ JSON: {json_file}")
         print(f"   ✓ Latest: {latest_file}")
+        print(f"   ✓ README 索引已更新")
     except Exception as e:
         print(f"   ✗ 保存失败: {e}")
         return 1

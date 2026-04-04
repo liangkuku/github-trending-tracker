@@ -1,9 +1,6 @@
-"""生成 Markdown 和 JSON 输出"""
+"""生成 Markdown 输出"""
 
-import json
-from datetime import datetime
 from pathlib import Path
-from typing import Any
 
 from src.trending import Repository
 
@@ -50,19 +47,23 @@ def _generate_table(repos: list[Repository], period: str) -> str:
         return "*暂无数据*"
     
     lines = [
-        f"| 排名 | 项目 | 描述 | 语言 | ⭐ Star | 📈 {period} |",
-        "|:---:|------|------|:----:|-------:|-------:|",
+        f"| 排名 | 项目 | 语言 | ⭐ Star | 📈 {period} |",
+        "|:---:|------|:----:|-------:|-------:|",
     ]
     
     for repo in repos:
-        desc = repo.description[:50] + "..." if len(repo.description) > 50 else repo.description
-        desc = desc.replace("|", "\\|")  # 转义表格分隔符
         lang = repo.language or "-"
         stars = _format_number(repo.stars)
         growth = f"+{_format_number(repo.growth)}"
         
-        line = f"| {repo.rank} | [{repo.name}]({repo.url}) | {desc} | {lang} | {stars} | {growth} |"
+        # 项目行
+        line = f"| {repo.rank} | [{repo.name}]({repo.url}) | {lang} | {stars} | {growth} |"
         lines.append(line)
+        
+        # 描述单独一行（完整显示）
+        if repo.description:
+            desc = repo.description.replace("|", "\\|")
+            lines.append(f"| | ↳ {desc} | | | |")
     
     return "\n".join(lines)
 
@@ -74,52 +75,19 @@ def _format_number(num: int) -> str:
     return str(num)
 
 
-def generate_json(
-    daily: list[Repository],
-    weekly: list[Repository],
-    date: str
-) -> dict[str, Any]:
-    """
-    生成 JSON 格式数据
-    
-    Args:
-        daily: 今日热门项目列表
-        weekly: 本周热门项目列表
-        date: 日期字符串 (YYYY-MM-DD)
-    
-    Returns:
-        JSON 可序列化的字典
-    """
-    return {
-        "date": date,
-        "generated_at": datetime.now().astimezone().isoformat(),
-        "daily": [_repo_to_dict(r) for r in daily],
-        "weekly": [_repo_to_dict(r) for r in weekly],
-    }
-
-
-def _repo_to_dict(repo: Repository) -> dict[str, Any]:
-    """将 Repository 转换为字典"""
-    return {
-        "rank": repo.rank,
-        "name": repo.name,
-        "url": repo.url,
-        "description": repo.description,
-        "language": repo.language,
-        "stars": repo.stars,
-        "forks": repo.forks,
-        "growth": repo.growth,
-    }
-
-
 def save_outputs(
     daily: list[Repository],
     weekly: list[Repository],
     date: str,
     data_dir: str = "data"
-) -> tuple[Path, Path, Path]:
+) -> tuple[Path, Path]:
     """
-    保存 Markdown 和 JSON 文件
+    保存 Markdown 文件
+    
+    目录结构: 
+    - data/daily/YYYY/MM/YYYY-MM-DD.md
+    - data/daily/README.md (倒序索引)
+    - data/latest.md
     
     Args:
         daily: 今日热门项目列表
@@ -128,28 +96,81 @@ def save_outputs(
         data_dir: 数据目录路径
     
     Returns:
-        (markdown_path, json_path, latest_path) 元组
+        (markdown_path, latest_path) 元组
     """
+    # 解析日期
+    year, month, day = date.split("-")
+    
+    # 创建目录结构: data/daily/YYYY/MM/
     data_path = Path(data_dir)
-    daily_path = data_path / "daily"
-    daily_path.mkdir(parents=True, exist_ok=True)
+    month_path = data_path / "daily" / year / month
+    month_path.mkdir(parents=True, exist_ok=True)
     
     # 生成内容
     markdown_content = generate_markdown(daily, weekly, date)
-    json_content = generate_json(daily, weekly, date)
     
-    # 保存每日存档
-    md_file = daily_path / f"{date}.md"
-    json_file = daily_path / f"{date}.json"
-    
+    # 保存每日存档: data/daily/YYYY/MM/YYYY-MM-DD.md
+    md_file = month_path / f"{date}.md"
     md_file.write_text(markdown_content, encoding="utf-8")
-    json_file.write_text(
-        json.dumps(json_content, ensure_ascii=False, indent=2),
-        encoding="utf-8"
-    )
     
     # 保存 latest.md
     latest_file = data_path / "latest.md"
     latest_file.write_text(markdown_content, encoding="utf-8")
     
-    return md_file, json_file, latest_file
+    # 更新 README 索引
+    _update_readme_index(data_path / "daily")
+    
+    return md_file, latest_file
+
+
+def _update_readme_index(daily_path: Path) -> None:
+    """
+    更新 data/daily/README.md 索引文件
+    扫描所有 .md 文件，按日期倒序生成索引
+    """
+    # 收集所有日期文件
+    entries = []
+    
+    for year_dir in sorted(daily_path.iterdir(), reverse=True):
+        if not year_dir.is_dir() or year_dir.name.startswith("."):
+            continue
+        
+        year = year_dir.name
+        
+        for month_dir in sorted(year_dir.iterdir(), reverse=True):
+            if not month_dir.is_dir():
+                continue
+            
+            month = month_dir.name
+            
+            for md_file in sorted(month_dir.glob("*.md"), reverse=True):
+                # 文件名格式: YYYY-MM-DD.md
+                date_str = md_file.stem  # e.g., "2026-04-04"
+                relative_path = f"{year}/{month}/{md_file.name}"
+                entries.append((date_str, relative_path))
+    
+    # 生成 README 内容
+    lines = [
+        "# 📊 GitHub Trending 历史记录",
+        "",
+        "> 最新数据请查看 [latest.md](../latest.md)",
+        "",
+        "## 历史归档",
+        "",
+        "| 日期 | 报告 |",
+        "|------|------|",
+    ]
+    
+    for date_str, path in entries:
+        lines.append(f"| {date_str} | [📄 查看]({path}) |")
+    
+    if not entries:
+        lines.append("| - | 暂无数据 |")
+    
+    lines.append("")
+    lines.append("---")
+    lines.append("*由 GitHub Actions 自动更新*")
+    
+    # 写入 README.md
+    readme_file = daily_path / "README.md"
+    readme_file.write_text("\n".join(lines), encoding="utf-8")
